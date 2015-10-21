@@ -10,10 +10,16 @@ import UIKit
 
 class MailboxViewController: UIViewController {
 
+    @IBOutlet weak var feedScrollView: UIScrollView!
+    
+    @IBOutlet weak var feedView: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        feedScrollView.contentSize = CGSize(width: 320, height: 1387)
     }
 
     override func didReceiveMemoryWarning() {

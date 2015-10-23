@@ -39,15 +39,23 @@
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </imageView>
                                             <view contentMode="scaleToFill" id="tsu-Js-Ohm">
-                                                <rect key="frame" x="0.0" y="79" width="320" height="86"/>
+                                                <rect key="frame" x="0.0" y="80" width="320" height="85"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <subviews>
-                                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="list_icon" id="LNZ-8k-zCC">
-                                                        <rect key="frame" x="26" y="26" width="25" height="25"/>
+                                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="later_icon" id="PrC-fc-rrc">
+                                                        <rect key="frame" x="278" y="30" width="25" height="25"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                     </imageView>
-                                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="later_icon" id="PrC-fc-rrc">
-                                                        <rect key="frame" x="284" y="29" width="25" height="25"/>
+                                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="list_icon" id="LNZ-8k-zCC">
+                                                        <rect key="frame" x="77" y="30" width="25" height="25"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                    </imageView>
+                                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="delete_icon" id="cku-aD-cUq">
+                                                        <rect key="frame" x="243" y="30" width="25" height="25"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                    </imageView>
+                                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="archive_icon" id="VDY-RP-RLE">
+                                                        <rect key="frame" x="17" y="30" width="25" height="25"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                     </imageView>
                                                     <imageView opaque="NO" clipsSubviews="YES" contentMode="center" image="message" id="8Ub-DH-S6d">
@@ -77,8 +85,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="archiveIconImageView" destination="VDY-RP-RLE" id="kbK-3D-FLS"/>
+                        <outlet property="deleteIconImageView" destination="cku-aD-cUq" id="BnF-Pv-oG8"/>
+                        <outlet property="feedImageView" destination="qdS-ZA-1E5" id="hNB-dv-6TG"/>
                         <outlet property="feedScrollView" destination="FCi-lU-303" id="8Rq-b9-fO8"/>
                         <outlet property="feedView" destination="HZE-I2-0oa" id="ghg-3h-fzp"/>
+                        <outlet property="laterIconImageView" destination="PrC-fc-rrc" id="F93-n5-peK"/>
+                        <outlet property="listIconImageView" destination="LNZ-8k-zCC" id="OXk-HP-cmz"/>
                         <outlet property="messageImageView" destination="8Ub-DH-S6d" id="jOw-OC-nhL"/>
                         <outlet property="messagePanGestureRecognizer" destination="qtd-7G-5Qb" id="t0W-LF-Sj7"/>
                         <outlet property="messageView" destination="tsu-Js-Ohm" id="XTy-ku-Dct"/>
@@ -95,7 +108,9 @@
         </scene>
     </scenes>
     <resources>
+        <image name="archive_icon" width="25" height="25"/>
         <image name="archive_nav_icon" width="25" height="20"/>
+        <image name="delete_icon" width="25" height="25"/>
         <image name="feed" width="320" height="1202"/>
         <image name="help_label" width="320" height="37"/>
         <image name="later_icon" width="25" height="25"/>

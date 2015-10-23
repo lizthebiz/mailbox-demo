@@ -14,14 +14,23 @@ class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var feedView: UIView!
     
+    @IBOutlet weak var feedImageView: UIImageView!
+    
     @IBOutlet weak var messageView: UIView!
     
     @IBOutlet weak var messagePanGestureRecognizer: UIPanGestureRecognizer!
     
     @IBOutlet weak var messageImageView: UIImageView!
     
+    @IBOutlet weak var laterIconImageView: UIImageView!
+    
+    @IBOutlet weak var listIconImageView: UIImageView!
+    
+    @IBOutlet weak var deleteIconImageView: UIImageView!
+    
+    @IBOutlet weak var archiveIconImageView: UIImageView!
+    
     var messageInitialFrame: CGPoint!
-    var messageLeft: CGPoint!
     
     func UIColorFromRGB(rgbValue: UInt) -> UIColor {
         return UIColor(
@@ -71,29 +80,60 @@ class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
         
         if sender.state == UIGestureRecognizerState.Began {
             print("Gesture began at: \(point)")
+            
             messageInitialFrame = messageImageView.frame.origin
+            
+            laterIconImageView.alpha = 0
+            listIconImageView.alpha = 0
+            deleteIconImageView.alpha = 0
+            archiveIconImageView.alpha = 0
             
         } else if sender.state == UIGestureRecognizerState.Changed {
             print("Gesture changed at: \(point)")
             
-            if messageImageView.frame.origin.x >= 60 {
-            messageView.backgroundColor = UIColorFromRGB(0x1ED200)}
-            
-            if messageImageView.frame.origin.x >= 260 {
-            messageView.backgroundColor = UIColorFromRGB(0xFF0000)}
+            if messageImageView.frame.origin.x > 0 && messageImageView.frame.origin.x <= 60 {
+                UIView.animateWithDuration(0.8, animations: {
+                self.archiveIconImageView.alpha = 1
+                })
+            }
+            else if messageImageView.frame.origin.x >= 60 && messageImageView.frame.origin.x < 260 {
+                messageView.backgroundColor = UIColorFromRGB(0x1ED200)
+                self.archiveIconImageView.alpha = 1
+            }
+            else if messageImageView.frame.origin.x >= 260 {
+                messageView.backgroundColor = UIColorFromRGB(0xFF0000)
+            }
+            else if messageImageView.frame.origin.x < 0 && messageImageView.frame.origin.x >= -60 {
+                UIView.animateWithDuration(0.8, animations: {
+                    self.laterIconImageView.alpha = 1
+                })
+            }
+            else if messageImageView.frame.origin.x <= -60 && messageImageView.frame.origin.x > -260 {
+            messageView.backgroundColor = UIColorFromRGB(0xFECA16)
+                    
+                UIView.animateWithDuration(0.2, animations: {
+                self.laterIconImageView.alpha = 1
+                })
+            }
+            else if messageImageView.frame.origin.x < -260 {
+                messageView.backgroundColor = UIColorFromRGB(0xDBAA82)
+                self.laterIconImageView.alpha = 0
+                self.listIconImageView.alpha = 1
+                }
             
             messageImageView.frame.origin.x = CGFloat(messageInitialFrame.x + messageTranslation.x)
+            print("\(messageImageView.frame.origin.x)")
             
         } else if sender.state == UIGestureRecognizerState.Ended {
             print("Gesture ended at: \(point)")
             
-            UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: [], animations: { () -> Void in
+            UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: [], animations: { () -> Void in
                 
                 self.messageImageView.frame.origin.x = CGFloat(self.messageInitialFrame.x)
                 self.messageView.backgroundColor = self.UIColorFromRGB(0xE5E6E9)
                 
                 }, completion: nil)
-        }
+           }
     }
 
 }

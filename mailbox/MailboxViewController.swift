@@ -30,6 +30,12 @@ class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var archiveIconImageView: UIImageView!
     
+    @IBOutlet weak var rescheduleImageView: UIImageView!
+    
+    @IBOutlet weak var rescheduleTapGestureRecognizer: UITapGestureRecognizer!
+    
+    @IBOutlet weak var listImageView: UIImageView!
+    
     var messageInitialFrame: CGPoint!
     var feedInitialFrame: CGPoint!
     
@@ -51,6 +57,8 @@ class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        rescheduleImageView.alpha = 0
+        listImageView.alpha = 0
         
         feedScrollView.contentSize = CGSize(width: 320, height: 1387)
         
@@ -59,13 +67,21 @@ class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
         // Attach it to a view of your choice. If it's a UIImageView, remember to enable user interaction
         messageImageView.addGestureRecognizer(messagePanGestureRecognizer)
         
+        // The onCustomTap: method will be defined in Step 3 below.
+        var rescheduleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: "onTapReschedule:")
+        
+        // Optionally set the number of required taps, e.g., 2 for a double click
+        rescheduleTapGestureRecognizer.numberOfTapsRequired = 1;
+        
+        // Attach it to a view of your choice. If it's a UIImageView, remember to enable user interaction
+        rescheduleImageView.userInteractionEnabled = true
+        rescheduleImageView.addGestureRecognizer(rescheduleTapGestureRecognizer)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 
     /*
     // MARK: - Navigation
@@ -82,7 +98,6 @@ class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
         let point = sender.locationInView(view)
         // Relative change in (x,y) coordinates from where gesture began.
         let translation = sender.translationInView(view)
-        let deleteIconTranslation = sender.translationInView(view)
         let velocity = sender.velocityInView(view)
         
         if sender.state == UIGestureRecognizerState.Began {
@@ -96,11 +111,6 @@ class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
             listIconInitialFrame = listIconImageView.frame.origin
             deleteIconInitialFrame = deleteIconImageView.frame.origin
             archiveIconInitialFrame = archiveIconImageView.frame.origin
-            
-            laterIconImageView.alpha = 0
-            listIconImageView.alpha = 0
-            deleteIconImageView.alpha = 0
-            archiveIconImageView.alpha = 0
             
         } else if sender.state == UIGestureRecognizerState.Changed {
             print("Gesture changed at: \(point)")
@@ -155,6 +165,7 @@ class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
             print("Gesture ended at: \(point)")
             
             if messageImageView.frame.origin.x > 0 && messageImageView.frame.origin.x <= 60 {
+                
                 UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: [], animations: { () -> Void in
                     
                     self.messageView.backgroundColor = self.UIColorFromRGB(0xE5E6E9)
@@ -176,7 +187,6 @@ class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
                 }
             }
             else if messageImageView.frame.origin.x >= 260 {
-                
                 messageView.backgroundColor = UIColorFromRGB(0xFF0000)
                 self.archiveIconImageView.alpha = 0
                 self.deleteIconImageView.alpha = 1
@@ -189,6 +199,7 @@ class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
                 }
             }
             else if messageImageView.frame.origin.x < 0 && messageImageView.frame.origin.x > -60 {
+                
                 UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 2, initialSpringVelocity: 0, options: [], animations: { () -> Void in
                     
                     self.messageView.backgroundColor = self.UIColorFromRGB(0xE5E6E9)
@@ -205,23 +216,30 @@ class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
                 UIView.animateWithDuration(0.3) { () -> Void in
                     self.messageImageView.frame.origin.x = CGFloat(self.messageInitialFrame.x - 100)
                 }
-                UIView.animateWithDuration(0.1) { () -> Void in self.messageImageView.alpha = 0
+                UIView.animateWithDuration(0.1) { () -> Void in
+                    self.messageImageView.alpha = 0
+                    self.rescheduleImageView.alpha = 1
                 }
             }
             else if messageImageView.frame.origin.x <= -260 {
-                
                 messageView.backgroundColor = UIColorFromRGB(0xDBAA82)
                 self.laterIconImageView.alpha = 0
                 self.listIconImageView.alpha = 1
-                
+
                 UIView.animateWithDuration(0.3) { () -> Void in
-                    self.messageImageView.frame.origin.x = CGFloat(self.messageInitialFrame.x + 400)
+                    self.messageImageView.frame.origin.x = CGFloat(self.messageInitialFrame.x - 100)
                 }
-                UIView.animateWithDuration(0.1) { () -> Void in self.messageImageView.alpha = 0
+                UIView.animateWithDuration(0.1) { () -> Void in
+                    self.messageImageView.alpha = 0
+                    self.listImageView.alpha = 1
                 }
             }
             
           }
+    }
+    
+    @IBAction func onTapReschedule(sender: UITapGestureRecognizer) {
+        rescheduleImageView.endEditing(true)
     }
 
 }

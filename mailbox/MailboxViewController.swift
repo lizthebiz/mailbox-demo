@@ -10,6 +10,8 @@ import UIKit
 
 class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
 
+    @IBOutlet weak var mailboxView: UIView!
+    
     @IBOutlet weak var feedScrollView: UIScrollView!
     
     @IBOutlet weak var feedView: UIView!
@@ -35,6 +37,12 @@ class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var rescheduleTapGestureRecognizer: UITapGestureRecognizer!
     
     @IBOutlet weak var listImageView: UIImageView!
+    
+    @IBOutlet weak var listTapGestureRecognizer: UITapGestureRecognizer!
+    
+    @IBOutlet weak var menuImageView: UIImageView!
+
+    @IBOutlet weak var edgePanGestureRecognizer: UIScreenEdgePanGestureRecognizer!
     
     var messageInitialFrame: CGPoint!
     var feedInitialFrame: CGPoint!
@@ -62,20 +70,30 @@ class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
         
         feedScrollView.contentSize = CGSize(width: 320, height: 1387)
         
-        var messagePanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "onLeftPan:")
+        let messagePanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "onLeftPan:")
         
         // Attach it to a view of your choice. If it's a UIImageView, remember to enable user interaction
         messageImageView.addGestureRecognizer(messagePanGestureRecognizer)
         
-        // The onCustomTap: method will be defined in Step 3 below.
-        var rescheduleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: "onTapReschedule:")
+        let rescheduleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: "onTapReschedule:")
         
-        // Optionally set the number of required taps, e.g., 2 for a double click
         rescheduleTapGestureRecognizer.numberOfTapsRequired = 1;
         
-        // Attach it to a view of your choice. If it's a UIImageView, remember to enable user interaction
         rescheduleImageView.userInteractionEnabled = true
         rescheduleImageView.addGestureRecognizer(rescheduleTapGestureRecognizer)
+        
+        let listTapGestureRecognizer = UITapGestureRecognizer(target: self, action: "onTapList:")
+        
+        listTapGestureRecognizer.numberOfTapsRequired = 1;
+        
+        listImageView.userInteractionEnabled = true
+        listImageView.addGestureRecognizer(listTapGestureRecognizer)
+        
+        let edgePanGestureRecognizer = UIScreenEdgePanGestureRecognizer(target: self, action: "onEdgePan:")
+        mailboxView.userInteractionEnabled=true
+        edgePanGestureRecognizer.edges = UIRectEdge.Left
+        mailboxView.addGestureRecognizer(edgePanGestureRecognizer)
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -239,7 +257,28 @@ class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @IBAction func onTapReschedule(sender: UITapGestureRecognizer) {
-        rescheduleImageView.endEditing(true)
+        print("You've tapped me.")
+        UIView.animateWithDuration(0.2) { () -> Void in
+            self.rescheduleImageView.alpha = 0
+        }
+            UIView.animateWithDuration(0.25) { () -> Void in
+            self.feedImageView.frame.origin.y = CGFloat(self.feedInitialFrame.y - 86)
+        }
     }
-
+    
+    @IBAction func onTapList(sender: UITapGestureRecognizer) {
+        print("Can't tap this.")
+        UIView.animateWithDuration(0.2) { () -> Void in
+            self.listImageView.alpha = 0
+        }
+        UIView.animateWithDuration(0.25) { () -> Void in
+            self.feedImageView.frame.origin.y = CGFloat(self.feedInitialFrame.y - 86)
+        }
+    }
+    
+    @IBAction func onEdgePan(sender: UIScreenEdgePanGestureRecognizer) {
+        var point = edgePanGestureRecognizer.locationInView(view)
+        var translation = edgePanGestureRecognizer.translationInView(view)
+        print("screen edge called \(mailboxView.frame.origin)")
+    }
 }

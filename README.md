@@ -21,9 +21,14 @@ Time spent:
    * After 260 pts, the icon changes to the list icon and the background color changes to light brown.
      * Upon release, the message continues to reveal the light brown background. When the animation is complete, it shows the list options.
    * User can tap to dismiss the reschedule or list options. After the reschedule or list options are dismissed, the message finishes the hide animation.
+* _Optional:_ Panning from the edge should reveal the menu.
+   * Code for this is in the Swift file but I can't get it to work. Sadface. :(
+* _Optional:_ Tapping on compose should animate to reveal the compose view.
+   * Only works when simulator is run on a device with a mail account set up, but you can see the  
 
-## Walkthrough of all user stories:
+## Walkthrough of all user stories: 
+_(minus the compose view, which only works on a device)_
 
-![tada Mailbox demo gif](gif link here)
+![tada Mailbox demo gif](https://raw.githubusercontent.com/lizthebiz/mailbox-demo/master/lizdalay-mailbox.gif)
 
 *GIF created with [LiceCap](http://www.cockos.com/licecap/).*

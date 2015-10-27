@@ -2,7 +2,7 @@
 
 This is a demo of the Mailbox iOS app. Here are the [instructions](http://courses.codepath.com/courses/ios_for_designers/unit/3#!assignment) for creating this demo.
 
-Time spent: 
+Time spent: ~ 15 hours
 
 ## Completed user stories:
 

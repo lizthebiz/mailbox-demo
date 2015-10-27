@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import MessageUI
 
-class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
+class MailboxViewController: UIViewController, UIGestureRecognizerDelegate, MFMailComposeViewControllerDelegate {
 
     @IBOutlet weak var mailboxView: UIView!
     
@@ -41,11 +42,12 @@ class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var listTapGestureRecognizer: UITapGestureRecognizer!
     
     @IBOutlet weak var menuImageView: UIImageView!
-
-    @IBOutlet weak var edgePanGestureRecognizer: UIScreenEdgePanGestureRecognizer!
+    
+    @IBOutlet weak var edgePanGesture: UIScreenEdgePanGestureRecognizer!
     
     var messageInitialFrame: CGPoint!
     var feedInitialFrame: CGPoint!
+    var mailboxInitialFrame: CGPoint!
     
     var laterIconInitialFrame: CGPoint!
     var listIconInitialFrame: CGPoint!
@@ -89,10 +91,10 @@ class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
         listImageView.userInteractionEnabled = true
         listImageView.addGestureRecognizer(listTapGestureRecognizer)
         
-        let edgePanGestureRecognizer = UIScreenEdgePanGestureRecognizer(target: self, action: "onEdgePan:")
+        let edgePanGesture = UIScreenEdgePanGestureRecognizer(target: self, action: "onEdgePan:")
         mailboxView.userInteractionEnabled=true
-        edgePanGestureRecognizer.edges = UIRectEdge.Left
-        mailboxView.addGestureRecognizer(edgePanGestureRecognizer)
+        edgePanGesture.edges = UIRectEdge.Left
+        mailboxView.addGestureRecognizer(edgePanGesture)
         
     }
 
@@ -145,14 +147,14 @@ class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
                 self.archiveIconImageView.alpha = 1
                 self.deleteIconImageView.alpha = 0
                 
-                self.archiveIconImageView.frame.origin.x = CGFloat(self.archiveIconInitialFrame.x + translation.x - 62)
+                self.archiveIconImageView.frame.origin.x = CGFloat(self.archiveIconInitialFrame.x + translation.x - 60)
             }
             else if messageImageView.frame.origin.x >= 260 {
                 messageView.backgroundColor = UIColorFromRGB(0xFF0000)
                 self.archiveIconImageView.alpha = 0
                 self.deleteIconImageView.alpha = 1
                 
-                self.deleteIconImageView.frame.origin.x = CGFloat(self.deleteIconInitialFrame.x + translation.x - 280)
+                self.deleteIconImageView.frame.origin.x = CGFloat(self.deleteIconInitialFrame.x + translation.x - 260)
             }
             else if messageImageView.frame.origin.x < 0 && messageImageView.frame.origin.x >= -60 {
                 messageView.backgroundColor = UIColorFromRGB(0xE5E6E9)
@@ -261,7 +263,7 @@ class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
         UIView.animateWithDuration(0.2) { () -> Void in
             self.rescheduleImageView.alpha = 0
         }
-            UIView.animateWithDuration(0.25) { () -> Void in
+        UIImageView.animateWithDuration(0.25) { () -> Void in
             self.feedImageView.frame.origin.y = CGFloat(self.feedInitialFrame.y - 86)
         }
     }
@@ -276,9 +278,49 @@ class MailboxViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
-    @IBAction func onEdgePan(sender: UIScreenEdgePanGestureRecognizer) {
-        var point = edgePanGestureRecognizer.locationInView(view)
-        var translation = edgePanGestureRecognizer.translationInView(view)
+    func onEdgePan (edgePanGesture: UIScreenEdgePanGestureRecognizer){
+        var point = edgePanGesture.locationInView(view)
+        var translation=edgePanGesture.translationInView(view)
         print("screen edge called \(mailboxView.frame.origin)")
+    }
+    
+    @IBAction func sendEmailButtonTapped(sender: AnyObject) {
+        let mailComposeViewController = configuredMailComposeViewController()
+        if MFMailComposeViewController.canSendMail() {
+            self.presentViewController(mailComposeViewController, animated: true, completion: nil)
+        } //else {
+          //self.showSendMailErrorAlert()
+        //}
+    }
+    
+    func configuredMailComposeViewController() -> MFMailComposeViewController {
+        let mailComposerVC = MFMailComposeViewController()
+        mailComposerVC.mailComposeDelegate = self // Extremely important to set the --mailComposeDelegate-- property, NOT the --delegate-- property
+        
+        mailComposerVC.setToRecipients(["tim@codepath.com"])
+        mailComposerVC.setSubject("Ta-da, an in-app e-mail...")
+        mailComposerVC.setMessageBody("Sending an e-mail in-app isn't too difficult to figure out, but it does require running the simulator on an actual device.", isHTML: false)
+        
+        return mailComposerVC
+    }
+    
+    //func showSendMailErrorAlert() {
+        //let alertController = UIAlertAction(title: "Could Not Send Email", message: "Your device could not send e-mail. Please check e-mail configuration and try again.", preferredStyle: .Alert)
+        // create an OK action
+        //let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) in
+            // handle response here.
+       ///}
+        
+        // add the OK action to the alert controller
+        //alertController.addAction(OKAction)
+        
+        //self.presentViewController(alertController, animated: true) {
+            // optional code for what happens after the alert controller has finished presenting
+        //}
+    //}
+    
+    // MARK: MFMailComposeViewControllerDelegate Method
+    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
+        controller.dismissViewControllerAnimated(true, completion: nil)
     }
 }

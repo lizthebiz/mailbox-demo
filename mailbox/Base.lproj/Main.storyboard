@@ -43,7 +43,7 @@
                                                         <autoresizingMask key="autoresizingMask"/>
                                                     </imageView>
                                                     <view contentMode="scaleToFill" id="tsu-Js-Ohm">
-                                                        <rect key="frame" x="0.0" y="80" width="320" height="85"/>
+                                                        <rect key="frame" x="0.0" y="80" width="320" height="86"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <subviews>
                                                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.0" contentMode="center" image="later_icon" id="PrC-fc-rrc">
@@ -55,7 +55,7 @@
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                             </imageView>
                                                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.0" contentMode="center" image="delete_icon" id="cku-aD-cUq">
-                                                                <rect key="frame" x="243" y="30" width="25" height="25"/>
+                                                                <rect key="frame" x="217" y="30" width="25" height="25"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                             </imageView>
                                                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.0" contentMode="center" image="archive_icon" id="VDY-RP-RLE">
@@ -99,6 +99,13 @@
                                         <rect key="frame" x="20" y="20" width="320" height="568"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="aP1-9Q-muV">
+                                        <rect key="frame" x="297" y="46" width="30" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <connections>
+                                            <action selector="sendEmailButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oVH-Kt-WgO"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -108,7 +115,7 @@
                     <connections>
                         <outlet property="archiveIconImageView" destination="VDY-RP-RLE" id="kbK-3D-FLS"/>
                         <outlet property="deleteIconImageView" destination="cku-aD-cUq" id="BnF-Pv-oG8"/>
-                        <outlet property="edgePanGestureRecognizer" destination="kXh-qo-daL" id="9SV-Tu-gGc"/>
+                        <outlet property="edgePanGesture" destination="McO-eg-MmJ" id="N2j-gm-Uf7"/>
                         <outlet property="feedImageView" destination="qdS-ZA-1E5" id="hNB-dv-6TG"/>
                         <outlet property="feedScrollView" destination="FCi-lU-303" id="8Rq-b9-fO8"/>
                         <outlet property="feedView" destination="HZE-I2-0oa" id="ghg-3h-fzp"/>
@@ -141,10 +148,8 @@
                         <action selector="onTapList:" destination="BYZ-38-t0r" id="cTa-7E-gdM"/>
                     </connections>
                 </tapGestureRecognizer>
-                <screenEdgePanGestureRecognizer minimumNumberOfTouches="1" id="kXh-qo-daL">
-                    <connections>
-                        <action selector="onEdgePan:" destination="BYZ-38-t0r" id="XXf-32-3SG"/>
-                    </connections>
+                <screenEdgePanGestureRecognizer minimumNumberOfTouches="1" id="McO-eg-MmJ">
+                    <rectEdge key="edges" left="YES"/>
                 </screenEdgePanGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="162" y="347"/>
